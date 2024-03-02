@@ -44,6 +44,16 @@ Generate the variables for the translations.
     - defaultLanguage: The default language.
 - Returns: The syntax.
 
+### `parseValue(defaultTranslation:translations:language:arguments:)`
+
+Parse the content of a switch case.
+- Parameters:
+    - defaultTranslation: The translation without any conditions (always required).
+    - translations: All the available translations for an entry.
+    - language: The language.
+    - arguments: The arguments of the entry.
+- Returns: The syntax.
+
 ### `generateLanguageFunction(dictionary:defaultLanguage:)`
 
 Generate the function for getting the translated string for a specified language code.

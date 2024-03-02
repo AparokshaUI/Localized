@@ -27,6 +27,12 @@ house:
     en: House
     de: Haus
     fr: Maison
+
+houses(count):
+    en(count == "1"): There is one house.
+    en: There are (count) houses.
+    de(count == "1"): Es gibt ein Haus.
+    de: Es gibt (count) Häuser.
 ```
 
 Then, access the localized strings safely in your code:
@@ -35,6 +41,7 @@ Then, access the localized strings safely in your code:
 // Use the system language
 print(Loc.hello(name: "Peter"))
 print(Loc.house)
+print(Loc.houses(count: "1"))
 
 // Access the translation for a specific language
 print(Localized.hello(name: "Peter").en)
@@ -70,11 +77,13 @@ export:
     de: Exportiere das Dokument
 
 send(message, name):
+    en(name == ""): Send (message).
     en: Send (message) to (name).
     de: Sende (message) to (name).
 ```
 
-As you can see, you can add parameters using brackets after the key.
+As you can see, you can add parameters using brackets after the key,
+and conditions using brackets after the language (e.g. for pluralization).
 
 The line `default: en` sets English as the fallback language.
 

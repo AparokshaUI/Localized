@@ -20,6 +20,9 @@ enum Tests {
         print("DE_CH: \(Localized.house.string(for: "de_CH"))")
         print("SYSTEM: \(Localized.house.string)")
         print("EN: \(Localized.helloPair(name1: "Max", name2: "Ruedi").en)")
+        print(Loc.houses(count: "0"))
+        print(Loc.houses(count: "1"))
+        print(Loc.houses(count: "2"))
     }
 
 }

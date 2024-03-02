@@ -10,6 +10,16 @@ house:
     de: Haus
     fr: Maison
 
+houses(count):
+    en(count == "1"): There is one house.
+    en(count == "0"): There is no house.
+    en: There are (count) houses.
+    de(count == "1"): Es gibt ein Haus.
+    de(count == "0"): Es gibt kein Haus.
+    de: Es gibt (count) Häuser.
+    # There is no French translation for this phrase.
+    # The default language, in this case English, will be used.
+
 helloPair(name1, name2):
     en: Hello, (name1) and (name2)!
     de: Hallo, (name1) und (name2)!

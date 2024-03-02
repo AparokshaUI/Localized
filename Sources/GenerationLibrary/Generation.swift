@@ -151,13 +151,18 @@ public enum Generation {
                 guard let valueForLanguage = entry.value[language] ?? entry.value[defaultLanguage] else {
                     throw GenerationError.missingTranslationInDefaultLanguage(key: key.0)
                 }
+                let value = parseValue(
+                    defaultTranslation: valueForLanguage,
+                    translations: entry.value,
+                    language: language,
+                    arguments: key.1
+                )
                 if key.1.isEmpty {
                     variable += indent("\ncase .\(entry.key):", by: indentTwo)
-                    variable += indent("\n\"\(valueForLanguage)\"", by: indentThree)
+                    variable += value
                 } else {
-                    let translation = parse(translation: valueForLanguage, arguments: key.1)
                     variable += indent("\ncase let .\(entry.key):", by: indentTwo)
-                    variable += indent("\n\"\(translation)\"", by: indentThree)
+                    variable += value
                 }
             }
             variable += indent("\n    }\n}", by: indentOne)
@@ -167,6 +172,42 @@ public enum Generation {
             """
         }
         return result
+    }
+
+    /// Parse the content of a switch case.
+    /// - Parameters:
+    ///     - defaultTranslation: The translation without any conditions (always required).
+    ///     - translations: All the available translations for an entry.
+    ///     - language: The language.
+    ///     - arguments: The arguments of the entry.
+    /// - Returns: The syntax.
+    static func parseValue(
+        defaultTranslation: String,
+        translations: [String: String],
+        language: String,
+        arguments: [String] = []
+    ) -> String {
+        var value = "\n"
+        let conditionTranslations = translations.filter { $0.key.hasPrefix(language + "(") }
+        let lastTranslation = parse(translation: defaultTranslation, arguments: arguments)
+        if conditionTranslations.isEmpty {
+            return indent("\n\"\(lastTranslation)\"", by: indentThree)
+        }
+        for translation in conditionTranslations {
+            var condition = translation.key.split(separator: "(")[1]
+            condition.removeLast()
+            value.append(indent("""
+             if \(condition) {
+                \"\(parse(translation: translation.value, arguments: arguments))\"
+            } else
+            """, by: indentThree))
+        }
+        value.append("""
+         {
+            \"\(lastTranslation)\"
+        }
+        """)
+        return value
     }
 
     /// Generate the function for getting the translated string for a specified language code.
@@ -199,7 +240,7 @@ public enum Generation {
     static func getLanguages(dictionary: [String: [String: String]]) -> [String] {
         var languages: Set<String> = []
         for key in dictionary {
-            languages = languages.union(key.value.map { $0.key })
+            languages = languages.union(key.value.compactMap { $0.key.components(separatedBy: "(").first })
         }
         return .init(languages)
     }
