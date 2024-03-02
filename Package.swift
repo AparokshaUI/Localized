@@ -17,6 +17,10 @@ let package = Package(
         .library(
             name: "Localized",
             targets: ["Localized"]
+        ),
+        .plugin(
+            name: "GenerateLocalized",
+            targets: ["GenerateLocalized"]
         )
     ],
     dependencies: [
@@ -25,13 +29,32 @@ let package = Package(
         .package(url: "https://github.com/stackotter/swift-macro-toolkit", from: "0.3.1")
     ],
     targets: [
+        .target(
+            name: "GenerationLibrary",
+            dependencies: [
+                .product(name: "Yams", package: "Yams")
+            ]
+        ),
+        .executableTarget(
+            name: "Generation",
+            dependencies: [
+                "GenerationLibrary"
+            ]
+        ),
         .macro(
             name: "LocalizedMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "MacroToolkit", package: "swift-macro-toolkit"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-                .product(name: "Yams", package: "Yams")
+                "GenerationLibrary"
+            ]
+        ),
+        .plugin(
+            name: "GenerateLocalized",
+            capability: .buildTool(),
+            dependencies: [
+                "Generation"
             ]
         ),
         .target(
@@ -41,11 +64,24 @@ let package = Package(
             ]
         ),
         .executableTarget(
-            name: "LocalizedTests",
+            name: "MacroTests",
             dependencies: [
                 "Localized"
             ],
-            path: "Tests"
+            path: "Tests/MacroTests"
+        ),
+        .executableTarget(
+            name: "PluginTests",
+            dependencies: [
+                "Localized"
+            ],
+            path: "Tests/PluginTests",
+            resources: [
+                .process("Localized.yml")
+            ],
+            plugins: [
+                "GenerateLocalized"
+            ]
         )
     ]
 )

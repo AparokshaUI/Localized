@@ -13,7 +13,7 @@
   </a>
 </p>
 
-_Localized_ provides a macro for localizing cross-platform Swift code.
+_Localized_ provides a Swift package plugin for localizing cross-platform Swift code.
 
 Use YML syntax for defining available phrases:
 
@@ -60,7 +60,44 @@ print(Localized.house.fr)
 
 ### Definition
 
-Define the available phrases using YML.
+Define the available phrases in a file called `Localized.yml`.
+
+```yml
+default: en
+
+export:
+    en: Export Document
+    de: Exportiere das Dokument
+
+send(message, name):
+    en: Send (message) to (name).
+    de: Sende (message) to (name).
+```
+
+As you can see, you can add parameters using brackets after the key.
+
+The line `default: en` sets English as the fallback language.
+
+Then, add the `Localized` dependency, the plugin and the `Localized.yml` resource
+to the target in the `Package.swift` file.
+
+```swift
+.executableTarget(
+    name: "PluginTests",
+    dependencies: ["Localized"],
+    resources: [.process("Localized.yml")],
+    plugins: ["GenerateLocalized"]
+)
+```
+
+<details>
+
+<summary> Use the Swift macro alternatively </summary>
+
+If you don't want to have a separate `Localized.yml` resource, you can use the
+YML syntax directly in your Swift code using a Swift macro.
+Leave out the `resources` and `plugins` lines in the target definition, and 
+instead of creating a `Localized.yml` file, use the following macro in a Swift file.
 
 ```swift
 #localized(default: "en", yml: """
@@ -74,7 +111,9 @@ send(message, name):
 """)
 ```
 
-As you can see, you can add parameters using brackets after the key.
+You cannot have a `defaultLanguage` set in the YML, instead, use the macro parameter.
+
+</details>
 
 ### Usage
 

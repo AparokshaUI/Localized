@@ -1,0 +1,16 @@
+default: en
+
+hello(name):
+    en: Hello, (name)!
+    de: Hallo, (name)!
+    fr: Salut, (name)!
+
+house:
+    en: House
+    de: Haus
+    fr: Maison
+
+helloPair(name1, name2):
+    en: Hello, (name1) and (name2)!
+    de: Hallo, (name1) und (name2)!
+    fr: Salut, (name1) et (name2)!
