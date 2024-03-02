@@ -89,7 +89,7 @@ public enum Generation {
             } else {
                 var line = "case \(key.0)("
                 for argument in key.1 {
-                    line += "\(argument): String, "
+                    line += "\(argument): CustomStringConvertible, "
                 }
                 line.removeLast(", ".count)
                 line += ")"
@@ -117,7 +117,7 @@ public enum Generation {
             } else {
                 var line = "static func \(key.0)("
                 for argument in key.1 {
-                    line += "\(argument): String, "
+                    line += "\(argument): CustomStringConvertible, "
                 }
                 line.removeLast(", ".count)
                 line += ") -> String {\n" + indent("Localized.\(key.0)(", by: indentOne)
@@ -190,21 +190,24 @@ public enum Generation {
         var value = "\n"
         let conditionTranslations = translations.filter { $0.key.hasPrefix(language + "(") }
         let lastTranslation = parse(translation: defaultTranslation, arguments: arguments)
+        for argument in arguments {
+            value += "let \(argument) = \(argument).description\n"
+        }
         if conditionTranslations.isEmpty {
-            return indent("\n\"\(lastTranslation)\"", by: indentThree)
+            return indent(value + "return \"\(lastTranslation)\"", by: indentThree)
         }
         for translation in conditionTranslations {
             var condition = translation.key.split(separator: "(")[1]
             condition.removeLast()
             value.append(indent("""
              if \(condition) {
-                \"\(parse(translation: translation.value, arguments: arguments))\"
+                return \"\(parse(translation: translation.value, arguments: arguments))\"
             } else
             """, by: indentThree))
         }
         value.append("""
          {
-            \"\(lastTranslation)\"
+            return \"\(lastTranslation)\"
         }
         """)
         return value

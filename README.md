@@ -41,7 +41,7 @@ Then, access the localized strings safely in your code:
 // Use the system language
 print(Loc.hello(name: "Peter"))
 print(Loc.house)
-print(Loc.houses(count: "1"))
+print(Loc.houses(count: 1))
 
 // Access the translation for a specific language
 print(Localized.hello(name: "Peter").en)
