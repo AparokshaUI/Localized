@@ -223,17 +223,25 @@ public enum Generation {
         defaultLanguage: String
     ) -> String {
         var result = "func string(for language: String) -> String {\n"
-        for language in getLanguages(dictionary: dictionary) where language != defaultLanguage {
+        let languages = getLanguages(dictionary: dictionary)
+        for language in languages where language != defaultLanguage {
             result += indent("if language.hasPrefix(\"\(language)\") {", by: indentTwo)
             result += indent("\nreturn \(language)", by: indentThree)
             result += indent("\n} else", by: indentTwo)
         }
-        result += """
-        {
-            return \(defaultLanguage)
+        if languages.count <= 1 {
+            result += """
+                return \(defaultLanguage)
+            }
+            """
+        } else {
+            result += """
+            {
+                return \(defaultLanguage)
+            }
+            }
+            """
         }
-        }
-        """
         return result
     }
 
