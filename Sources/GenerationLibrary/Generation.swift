@@ -46,9 +46,9 @@ public enum Generation {
         }
         return [
             """
-            enum Localized {
+            public enum Localized {
 
-                static var yml: String {
+                public static var yml: String {
                     \"""
             \(indent(yml, by: indentTwo))
                     \"""
@@ -56,7 +56,7 @@ public enum Generation {
 
             \(generateEnumCases(dictionary: dictionary))
 
-                var string: String { string(for: System.getLanguage()) }
+                public var string: String { string(for: System.getLanguage()) }
 
             \(try generateTranslations(dictionary: dictionary, defaultLanguage: defaultLanguage))
 
@@ -65,7 +65,7 @@ public enum Generation {
             }
             """,
             """
-            enum Loc {
+            public enum Loc {
 
             \(generateStaticLocVariables(dictionary: dictionary))
 
@@ -111,11 +111,11 @@ public enum Generation {
             let key = parse(key: entry.key)
             if key.1.isEmpty {
                 result.append("""
-                    static var \(entry.key): String { Localized.\(entry.key).string }
+                    public static var \(entry.key): String { Localized.\(entry.key).string }
 
                 """)
             } else {
-                var line = "static func \(key.0)("
+                var line = "public static func \(key.0)("
                 for argument in key.1 {
                     line += "\(argument): CustomStringConvertible, "
                 }
@@ -144,7 +144,7 @@ public enum Generation {
     static func generateTranslations(dictionary: [String: [String: String]], defaultLanguage: String) throws -> String {
         var result = ""
         for language in getLanguages(dictionary: dictionary) {
-            var variable = indent("var \(language): String {", by: indentOne)
+            var variable = indent("public var \(language): String {", by: indentOne)
             variable += indent("\nswitch self {", by: indentTwo)
             for entry in dictionary {
                 let key = parse(key: entry.key)
@@ -222,7 +222,7 @@ public enum Generation {
         dictionary: [String: [String: String]],
         defaultLanguage: String
     ) -> String {
-        var result = "func string(for language: String) -> String {\n"
+        var result = "public func string(for language: String) -> String {\n"
         let languages = getLanguages(dictionary: dictionary)
         for language in languages where language != defaultLanguage {
             result += indent("if language.hasPrefix(\"\(language)\") {", by: indentTwo)
