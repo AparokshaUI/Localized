@@ -224,7 +224,7 @@ public enum Generation {
     ) -> String {
         var result = "public func string(for language: String) -> String {\n"
         let languages = getLanguages(dictionary: dictionary)
-        for language in languages where language != defaultLanguage {
+        for language in languages.sorted().reversed() where language != defaultLanguage {
             result += indent("if language.hasPrefix(\"\(language)\") {", by: indentTwo)
             result += indent("\nreturn \(language)", by: indentThree)
             result += indent("\n} else", by: indentTwo)

@@ -4,6 +4,7 @@ hello(name):
     en: Hello, (name)!
     de: Hallo, (name)!
     fr: Salut, (name)!
+    pt_BR: Olá, (name)!
 
 house:
     en: House

@@ -21,8 +21,7 @@ public enum System {
             guard let lang = ProcessInfo.processInfo.environment["LANG"] else {
                 return "en"
             }
-            let components = lang.split(separator: "_")
-            systemLanguage = .init(components.first ?? "en")
+            systemLanguage = lang
             #endif
             #if os(macOS)
             systemLanguage = Locale.preferredLanguages.first
