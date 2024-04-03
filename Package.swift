@@ -24,9 +24,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0"),
-        .package(url: "https://github.com/jpsim/Yams", from: "5.0.6"),
-        .package(url: "https://github.com/stackotter/swift-macro-toolkit", from: "0.3.1")
+        .package(url: "https://github.com/jpsim/Yams", from: "5.0.6")
     ],
     targets: [
         .target(
@@ -41,15 +39,6 @@ let package = Package(
                 "GenerationLibrary"
             ]
         ),
-        .macro(
-            name: "LocalizedMacros",
-            dependencies: [
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "MacroToolkit", package: "swift-macro-toolkit"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-                "GenerationLibrary"
-            ]
-        ),
         .plugin(
             name: "GenerateLocalized",
             capability: .buildTool(),
@@ -58,17 +47,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Localized",
-            dependencies: [
-                "LocalizedMacros"
-            ]
-        ),
-        .executableTarget(
-            name: "MacroTests",
-            dependencies: [
-                "Localized"
-            ],
-            path: "Tests/MacroTests"
+            name: "Localized"
         ),
         .executableTarget(
             name: "PluginTests",

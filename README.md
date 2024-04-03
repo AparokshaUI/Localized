@@ -99,31 +99,6 @@ to the target in the `Package.swift` file.
 )
 ```
 
-<details>
-
-<summary> Use the Swift macro alternatively </summary>
-
-If you don't want to have a separate `Localized.yml` resource, you can use the
-YML syntax directly in your Swift code using a Swift macro.
-Leave out the `resources` and `plugins` lines in the target definition, and 
-instead of creating a `Localized.yml` file, use the following macro in a Swift file.
-
-```swift
-#localized(default: "en", yml: """
-export:
-    en: Export Document
-    de: Exportiere das Dokument
-
-send(message, name):
-    en: Send (message) to (name).
-    de: Sende (message) to (name).
-""")
-```
-
-You cannot have a `defaultLanguage` set in the YML, instead, use the macro parameter.
-
-</details>
-
 ### Usage
 
 In most cases, you want to get the translated string in the system language.
