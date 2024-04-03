@@ -126,9 +126,7 @@ let export = Localized.export.string(for: "de-CH")
 ## Thanks
 
 ### Dependencies
-- [Swift Syntax](https://github.com/apple/swift-syntax) licensed under the [Apache 2.0 license](https://github.com/apple/swift-syntax/blob/main/LICENSE.txt)
 - [Yams](https://github.com/jpsim/Yams) licensed under the [MIT license](https://github.com/jpsim/Yams/blob/main/LICENSE)
-- [Swift Macro Toolkit](https://github.com/stackotter/swift-macro-toolkit) licensed under the [Apache 2.0 license](https://github.com/stackotter/swift-macro-toolkit/blob/main/LICENSE)
 
 ### Other Thanks
 - The [contributors][7]
