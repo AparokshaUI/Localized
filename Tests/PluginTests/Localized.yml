@@ -4,12 +4,14 @@ hello(name):
     en: Hello, (name)!
     de: Hallo, (name)!
     fr: Salut, (name)!
+    it: Ciao, (name)!
     pt_BR: Olá, (name)!
 
 house:
     en: House
     de: Haus
     fr: Maison
+    it: Casa
 
 houses(count):
     en(count == "1"): There is one house.
@@ -18,6 +20,9 @@ houses(count):
     de(count == "1"): Es gibt ein Haus.
     de(count == "0"): Es gibt kein Haus.
     de: Es gibt (count) Häuser.
+    it:(count == "1"): C'è una casa.
+    it:(count == "0"): Non c'è nessuna casa.
+     it: Ci sono (count) case.
     # There is no French translation for this phrase.
     # The default language, in this case English, will be used.
 
@@ -25,3 +30,4 @@ helloPair(name1, name2):
     en: Hello, (name1) and (name2)!
     de: Hallo, (name1) und (name2)!
     fr: Salut, (name1) et (name2)!
+    it: Ciao, (name1) e (name2)!
