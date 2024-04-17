@@ -20,9 +20,9 @@ houses(count):
     de(count == "1"): Es gibt ein Haus.
     de(count == "0"): Es gibt kein Haus.
     de: Es gibt (count) Häuser.
-    it:(count == "1"): C'è una casa.
-    it:(count == "0"): Non c'è nessuna casa.
-     it: Ci sono (count) case.
+    it(count == "1"): C'è una casa.
+    it(count == "0"): Non c'è nessuna casa.
+    it: Ci sono (count) case.
     # There is no French translation for this phrase.
     # The default language, in this case English, will be used.
 
