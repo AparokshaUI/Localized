@@ -8,8 +8,9 @@
 import Foundation
 import GenerationLibrary
 
+try Generation.main()
+
 /// A type containing the generation function for the plugin.
-@main
 public enum Generation {
 
     /// Generate the Swift code for the plugin.
